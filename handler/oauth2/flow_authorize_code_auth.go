@@ -71,11 +71,6 @@ func (c *AuthorizeExplicitGrantHandler) HandleAuthorizeEndpointRequest(ctx conte
 	}
 
 	client := ar.GetClient()
-	for _, scope := range ar.GetRequestedScopes() {
-		if !c.ScopeStrategy(client.GetScopes(), scope) {
-			return errors.WithStack(fosite.ErrInvalidScope.WithHintf("The OAuth 2.0 Client is not allowed to request scope \"%s\".", scope))
-		}
-	}
 
 	return c.IssueAuthorizeCode(ctx, ar, resp)
 }
