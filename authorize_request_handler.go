@@ -179,11 +179,6 @@ func (f *Fosite) validateAuthorizeRedirectURI(r *http.Request, request *Authoriz
 
 func (f *Fosite) validateAuthorizeScope(r *http.Request, request *AuthorizeRequest) error {
 	scope := removeEmpty(strings.Split(request.Form.Get("scope"), " "))
-	for _, permission := range scope {
-		if !f.ScopeStrategy(request.Client.GetScopes(), permission) {
-			return errors.WithStack(ErrInvalidScope.WithHintf(`The OAuth 2.0 Client is not allowed to request scope "%s".`, permission))
-		}
-	}
 	request.SetRequestedScopes(scope)
 
 	return nil
